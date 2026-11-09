@@ -18,10 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.enigma.kitchenorders.ui.theme.Kopi
 
-/**
- * Menu Icon Box component specified in UI_ENHANCE.md Section 6.1:
- * 48dp icon box, radius 16dp, tint per category (rice #FFE9B0, chicken #FFD9CF, vegetables #DDEBCB).
- */
+
 @Composable
 fun MenuIconBox(
     menuName: String,

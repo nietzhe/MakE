@@ -6,7 +6,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Font families configured with fallbacks (Fraunces = Serif, Plus Jakarta Sans = SansSerif)
 val FrauncesFontFamily = FontFamily.Serif
 val PlusJakartaSansFontFamily = FontFamily.SansSerif
 

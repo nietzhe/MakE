@@ -1,3 +1,9 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/tasks.xml
+/usage.statistics.xml
+/dictionaries/
+/dataSources/
+/dataSources.local.xml
+/httpRequests/

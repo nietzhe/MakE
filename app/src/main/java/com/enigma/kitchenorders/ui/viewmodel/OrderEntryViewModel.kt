@@ -76,13 +76,11 @@ class OrderEntryViewModel(private val repository: KitchenRepository) : ViewModel
                     items = _cart.value
                 )
                 val savedName = name
-                // Reset Form
                 _customerName.value = ""
                 _cart.value = emptyList()
-                // Emit success event
                 _orderSaved.emit(savedName)
             } catch (e: Exception) {
-                // Could add error handling here if needed
+                // pass
             }
         }
     }

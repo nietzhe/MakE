@@ -23,13 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enigma.kitchenorders.ui.theme.*
 
-/**
- * Mode Toggle floating component specified in UI_ENHANCE.md Section 6.1:
- * Floating pill overlapping hero bottom edge, 24dp horizontal margin, 5dp inner padding, warm shadow.
- * Kasir segment = Sambal with white text.
- * Dapur segment = Kunyit with Kopi text.
- * Segment height 46dp.
- */
+
 @Composable
 fun ModeToggle(
     isKitchenMode: Boolean,
@@ -55,7 +49,7 @@ fun ModeToggle(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Kasir Segment
+            // kasir
             val kasirBgColor by animateColorAsState(
                 targetValue = if (!isKitchenMode) Sambal else Color.Transparent,
                 animationSpec = tween(300),
@@ -88,7 +82,7 @@ fun ModeToggle(
                 )
             }
 
-            // Dapur Segment
+            // dapur
             val dapurBgColor by animateColorAsState(
                 targetValue = if (isKitchenMode) Kunyit else Color.Transparent,
                 animationSpec = tween(300),

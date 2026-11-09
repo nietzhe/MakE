@@ -8,12 +8,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-/**
- * Decorative dot pattern specified in UI_ENHANCE.md Section 5.1:
- * - White dots at alpha 0.14 (radius 3dp, 22dp grid)
- * - Layered with larger circles at alpha 0.07 (radius 12dp, 44dp grid, 11dp offset)
- * Drawn via Canvas to keep APK size lightweight.
- */
+
 @Composable
 fun DotPattern(
     modifier: Modifier = Modifier,
@@ -32,7 +27,7 @@ fun DotPattern(
         val largeOffset = 11.dp.toPx()
         val largeDotColor = Color.White.copy(alpha = 0.07f * baseAlpha)
 
-        // Draw small dot grid
+        // small dot grid
         var x = smallGridSize / 2
         while (x < width) {
             var y = smallGridSize / 2
@@ -47,7 +42,7 @@ fun DotPattern(
             x += smallGridSize
         }
 
-        // Draw larger circle overlay grid
+        // larger circle overlay grid
         var lx = largeGridSize / 2 + largeOffset
         while (lx < width + largeRadius) {
             var ly = largeGridSize / 2 + largeOffset

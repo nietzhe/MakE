@@ -22,12 +22,11 @@ class KitchenViewModel(private val repository: KitchenRepository) : ViewModel() 
     private val _filterKeyword = MutableStateFlow("")
     val filterKeyword: StateFlow<String> = _filterKeyword.asStateFlow()
 
-    // Raw items from DB
+    // raw items from DB
     private val _rawItems = _selectedDate.flatMapLatest { date ->
         repository.getKitchenPreview(date)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    // Aggregated UI State
     val uiState: StateFlow<List<MenuAggregation>> = combine(_rawItems, _filterKeyword) { items, keyword ->
         aggregateItems(items, keyword)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())

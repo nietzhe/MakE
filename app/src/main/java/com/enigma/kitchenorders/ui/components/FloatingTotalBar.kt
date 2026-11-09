@@ -19,12 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enigma.kitchenorders.ui.theme.*
 
-/**
- * Floating Total Bar specified in UI_ENHANCE.md Section 6.1:
- * Bottom floating bar, 16dp horizontal margin, 22dp bottom margin, Kopi background, radius 30dp.
- * Left: "Total" + total price (Fraunces 800 22sp, KunyitPale).
- * Right: "Simpan pesanan" button (52dp tall, 135° Kunyit -> KunyitLight gradient, Kopi text 15sp bold).
- */
+
 @Composable
 fun FloatingTotalBar(
     totalPriceFormatted: String,
@@ -48,7 +43,6 @@ fun FloatingTotalBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Left Column: Total label + Price
             Column(
                 modifier = Modifier.padding(start = 12.dp)
             ) {
@@ -68,7 +62,6 @@ fun FloatingTotalBar(
                 )
             }
 
-            // Right Button: Save order with 135° gradient
             Button(
                 onClick = onSaveOrder,
                 enabled = enabled,

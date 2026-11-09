@@ -19,12 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.enigma.kitchenorders.ui.theme.*
 import java.util.Calendar
 
-/**
- * Makkae Hero Header component specified in UI_ENHANCE.md Section 6.1 & Section 9.
- * Height ≈ 272dp, bottom corners 44dp.
- * Sambal base background with 160° SambalLight -> SambalDark gradient,
- * DotPattern overlay, large Kunyit circle at top-right, and Tumpeng/Pot illustration.
- */
+
 @Composable
 fun MakkaeHero(
     pendingOrdersCount: Int,
@@ -54,10 +49,7 @@ fun MakkaeHero(
                 )
             )
     ) {
-        // 1. Dot Pattern overlay
         DotPattern(baseAlpha = if (isKitchenMode) 0.6f else 1.0f)
-
-        // 2. Large Kunyit circle bleeding out top-right (190dp, alpha 0.9)
         Canvas(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -69,7 +61,7 @@ fun MakkaeHero(
             )
         }
 
-        // 3. Top-right Illustration
+        // (top-right) illustration
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -82,14 +74,13 @@ fun MakkaeHero(
             }
         }
 
-        // 4. Content Column
+        // content column
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp, vertical = 20.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top Row: Logo
             Text(
                 text = "MAKKAE",
                 fontFamily = FrauncesFontFamily,
@@ -99,7 +90,6 @@ fun MakkaeHero(
                 color = KunyitPale
             )
 
-            // Middle Section: Dynamic Greeting & Subtitle / Date
             Column {
                 if (isKitchenMode && dateText.isNotBlank()) {
                     Text(
@@ -129,10 +119,8 @@ fun MakkaeHero(
                         color = Color.White
                     )
                 }
-
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Translucent capsule chip (white at alpha 0.2)
                 Surface(
                     color = Color.White.copy(alpha = 0.2f),
                     shape = RoundedCornerShape(20.dp)
@@ -148,7 +136,6 @@ fun MakkaeHero(
                 }
             }
 
-            // Bottom spacing reserved for floating toggle overlap (-26dp)
             Spacer(modifier = Modifier.height(16.dp))
         }
     }

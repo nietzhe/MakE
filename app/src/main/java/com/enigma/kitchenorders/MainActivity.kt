@@ -34,8 +34,6 @@ class MainActivity : ComponentActivity() {
             KitchenOrdersTheme {
                 val navController = rememberNavController()
                 val scope = rememberCoroutineScope()
-                
-                // Shared state
                 val businessName by app.preferencesManager.businessName.collectAsState(initial = "Dapur Saya")
                 
                 NavHost(

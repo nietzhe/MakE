@@ -30,14 +30,7 @@ enum class KitchenStatus {
     DONE, COOKING, NOT_STARTED
 }
 
-/**
- * Status Badge specified in UI_ENHANCE.md Section 6.2:
- * 56dp circle, white at alpha 0.08 background, 2dp border in status color, 28dp status icon.
- * NO percentages and NO status text.
- * - Done: Bold checkmark, KunyitLight (#F2B93B), contentDescription="Selesai"
- * - Cooking: Flame, Salmon (#F2896F), contentDescription="Sedang dimasak"
- * - Not started: Clock, PandanPale (#9FCB9A), contentDescription="Belum mulai"
- */
+
 @Composable
 fun StatusBadge(
     status: KitchenStatus,
@@ -66,11 +59,7 @@ fun StatusBadge(
     }
 }
 
-/**
- * Production Menu Card specified in UI_ENHANCE.md Section 6.2:
- * 135° gradient #4A3125 -> #35231A, 1dp border KunyitPale at alpha 0.15, radius 24dp, padding 16x18dp.
- * Left to right: StatusBadge, Menu name + subtext, Portion count (Fraunces 800 40sp).
- */
+
 @Composable
 fun ProductionCard(
     menuName: String,
@@ -111,12 +100,10 @@ fun ProductionCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // 1. Status Icon Badge
                 StatusBadge(status = status)
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                // 2. Menu Name + Subtext
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -139,7 +126,6 @@ fun ProductionCard(
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                // 3. Portion count (Fraunces 800 40sp)
                 Text(
                     text = "$totalQuantity",
                     fontFamily = FrauncesFontFamily,

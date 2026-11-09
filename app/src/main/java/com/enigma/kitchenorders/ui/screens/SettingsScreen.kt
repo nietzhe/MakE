@@ -1,8 +1,10 @@
 package com.enigma.kitchenorders.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -10,12 +12,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.enigma.kitchenorders.data.local.entity.MenuEntity
+import com.enigma.kitchenorders.ui.theme.*
 import java.text.NumberFormat
 import java.util.*
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,38 +35,45 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit
 ) {
     val currencyFormat = remember { NumberFormat.getCurrencyInstance(Locale("id", "ID")) }
-    
+
     var editingBusinessName by remember { mutableStateOf(businessName) }
     var showAddMenuDialog by remember { mutableStateOf(false) }
     var editingMenu by remember { mutableStateOf<MenuEntity?>(null) }
     var showDeleteConfirmation by remember { mutableStateOf(false) }
     var menuToDelete by remember { mutableStateOf<MenuEntity?>(null) }
-    
-    // For add/edit dialog
+
     var menuName by remember { mutableStateOf("") }
     var menuPrice by remember { mutableStateOf("") }
     var menuActive by remember { mutableStateOf(true) }
-    
+
     LaunchedEffect(businessName) {
         editingBusinessName = businessName
     }
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Pengaturan") },
+                title = {
+                    Text(
+                        text = "Pengaturan",
+                        fontFamily = FrauncesFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 20.sp
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, "Kembali")
+                        Icon(Icons.Default.ArrowBack, "Kembali", tint = Color.White)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = Sambal,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
                 )
             )
         },
+        containerColor = Tepung,
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = {
@@ -69,8 +83,18 @@ fun SettingsScreen(
                     menuActive = true
                     showAddMenuDialog = true
                 },
-                icon = { Icon(Icons.Default.Add, null) },
-                text = { Text("Tambah Menu") }
+                icon = { Icon(Icons.Default.Add, null, tint = Kopi) },
+                text = {
+                    Text(
+                        text = "Tambah Menu",
+                        fontFamily = PlusJakartaSansFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        color = Kopi
+                    )
+                },
+                containerColor = Kunyit,
+                contentColor = Kopi,
+                shape = RoundedCornerShape(22.dp)
             )
         }
     ) { paddingValues ->
@@ -81,36 +105,41 @@ fun SettingsScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Business Name Section
             item {
                 Text(
-                    "Informasi Bisnis",
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary
+                    text = "Informasi Bisnis",
+                    fontFamily = PlusJakartaSansFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = Sambal
                 )
             }
-            
+
             item {
                 OutlinedTextField(
                     value = editingBusinessName,
                     onValueChange = { editingBusinessName = it },
                     label = { Text("Nama Bisnis") },
-                    leadingIcon = { Icon(Icons.Default.Store, null) },
+                    leadingIcon = { Icon(Icons.Default.Store, null, tint = Sambal) },
                     trailingIcon = {
                         if (editingBusinessName != businessName) {
                             IconButton(onClick = { onBusinessNameChange(editingBusinessName) }) {
-                                Icon(Icons.Default.Check, "Simpan", tint = MaterialTheme.colorScheme.primary)
+                                Icon(Icons.Default.Check, "Simpan", tint = Sambal)
                             }
                         }
                     },
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Sambal,
+                        unfocusedBorderColor = Line
+                    ),
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
             }
-            
-            item { Divider() }
-            
-            // Menu List Section
+
+            item { HorizontalDivider(color = Line) }
+
+            // "Menu List" section
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -118,25 +147,27 @@ fun SettingsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "Daftar Menu",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        text = "Daftar Menu",
+                        fontFamily = PlusJakartaSansFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp,
+                        color = Sambal
                     )
                     Text(
-                        "${menus.size} menu",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        text = "${menus.size} menu",
+                        fontFamily = PlusJakartaSansFontFamily,
+                        fontSize = 12.sp,
+                        color = TextSecondary
                     )
                 }
             }
-            
+
             if (menus.isEmpty()) {
                 item {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant
-                        )
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
                     ) {
                         Column(
                             modifier = Modifier
@@ -145,29 +176,31 @@ fun SettingsScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                Icons.Default.Restaurant,
-                                null,
+                                imageVector = Icons.Default.Restaurant,
+                                contentDescription = null,
                                 modifier = Modifier.size(48.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                tint = TextSecondary
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
-                                "Belum ada menu",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                text = "Belum ada menu",
+                                fontFamily = PlusJakartaSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                                color = Kopi
                             )
                             Text(
-                                "Tap tombol + untuk menambah",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                text = "Tap tombol + untuk menambah",
+                                fontFamily = PlusJakartaSansFontFamily,
+                                fontSize = 12.sp,
+                                color = TextSecondary
                             )
                         }
                     }
                 }
             }
-            
+
             items(menus) { menu ->
-                ElevatedCard(
+                Card(
                     onClick = {
                         editingMenu = menu
                         menuName = menu.name
@@ -175,7 +208,11 @@ fun SettingsScreen(
                         menuActive = menu.isActive
                         showAddMenuDialog = true
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .shadow(2.dp, RoundedCornerShape(20.dp)),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
                 ) {
                     Row(
                         modifier = Modifier
@@ -186,14 +223,17 @@ fun SettingsScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                menu.name,
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Medium
+                                text = menu.name,
+                                fontFamily = PlusJakartaSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp,
+                                color = Kopi
                             )
                             Text(
-                                currencyFormat.format(menu.currentPrice),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.primary
+                                text = currencyFormat.format(menu.currentPrice),
+                                fontFamily = PlusJakartaSansFontFamily,
+                                fontSize = 14.sp,
+                                color = Sambal
                             )
                         }
                         if (!menu.isActive) {
@@ -201,30 +241,33 @@ fun SettingsScreen(
                                 onClick = {},
                                 label = { Text("Nonaktif") },
                                 colors = AssistChipDefaults.assistChipColors(
-                                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                                    labelColor = MaterialTheme.colorScheme.error
+                                    containerColor = Color(0xFFFFD9CF),
+                                    labelColor = Sambal
                                 )
                             )
                         }
                         Icon(
-                            Icons.Default.ChevronRight,
-                            null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = TextSecondary
                         )
                     }
                 }
             }
-            
+
             item { Spacer(modifier = Modifier.height(80.dp)) }
         }
     }
-    
-    // Add/Edit Menu Dialog
+
     if (showAddMenuDialog) {
         AlertDialog(
             onDismissRequest = { showAddMenuDialog = false },
-            title = { 
-                Text(if (editingMenu == null) "Tambah Menu" else "Edit Menu")
+            title = {
+                Text(
+                    text = if (editingMenu == null) "Tambah Menu" else "Edit Menu",
+                    fontFamily = FrauncesFontFamily,
+                    fontWeight = FontWeight.SemiBold
+                )
             },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -236,7 +279,7 @@ fun SettingsScreen(
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
-                    
+
                     OutlinedTextField(
                         value = menuPrice,
                         onValueChange = { menuPrice = it.filter { c -> c.isDigit() } },
@@ -246,22 +289,25 @@ fun SettingsScreen(
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
-                    
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Menu aktif")
+                        Text("Menu aktif", fontFamily = PlusJakartaSansFontFamily)
                         Switch(
                             checked = menuActive,
-                            onCheckedChange = { menuActive = it }
+                            onCheckedChange = { menuActive = it },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = Color.White,
+                                checkedTrackColor = Sambal
+                            )
                         )
                     }
-                    
-                    // Delete button (only show when editing existing menu)
+
                     if (editingMenu != null) {
-                        Divider()
+                        HorizontalDivider(color = Line)
                         TextButton(
                             onClick = {
                                 menuToDelete = editingMenu
@@ -274,7 +320,7 @@ fun SettingsScreen(
                         ) {
                             Icon(Icons.Default.Delete, null, modifier = Modifier.size(18.dp))
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Hapus Menu Ini")
+                            Text("Hapus Menu Ini", fontFamily = PlusJakartaSansFontFamily, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -294,21 +340,20 @@ fun SettingsScreen(
                     },
                     enabled = menuName.isNotBlank() && menuPrice.isNotBlank()
                 ) {
-                    Text("SIMPAN")
+                    Text("SIMPAN", fontFamily = PlusJakartaSansFontFamily, fontWeight = FontWeight.Bold, color = Sambal)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showAddMenuDialog = false }) {
-                    Text("BATAL")
+                    Text("BATAL", fontFamily = PlusJakartaSansFontFamily, color = TextSecondary)
                 }
             }
         )
     }
     
-    // Delete Confirmation Dialog
     if (showDeleteConfirmation && menuToDelete != null) {
         AlertDialog(
-            onDismissRequest = { 
+            onDismissRequest = {
                 showDeleteConfirmation = false
                 menuToDelete = null
             },
@@ -319,9 +364,14 @@ fun SettingsScreen(
                     tint = MaterialTheme.colorScheme.error
                 )
             },
-            title = { Text("Hapus Menu?") },
+            title = {
+                Text("Hapus Menu?", fontFamily = FrauncesFontFamily, fontWeight = FontWeight.SemiBold)
+            },
             text = {
-                Text("Menu \"${menuToDelete?.name}\" akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.")
+                Text(
+                    "Menu \"${menuToDelete?.name}\" akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.",
+                    fontFamily = PlusJakartaSansFontFamily
+                )
             },
             confirmButton = {
                 TextButton(
@@ -335,17 +385,17 @@ fun SettingsScreen(
                         contentColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("HAPUS")
+                    Text("HAPUS", fontFamily = PlusJakartaSansFontFamily, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { 
+                    onClick = {
                         showDeleteConfirmation = false
                         menuToDelete = null
                     }
                 ) {
-                    Text("BATAL")
+                    Text("BATAL", fontFamily = PlusJakartaSansFontFamily, color = TextSecondary)
                 }
             }
         )
