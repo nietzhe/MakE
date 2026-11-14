@@ -1,16 +1,26 @@
-# gradle build files
+# Built application files & outputs
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Gradle build files & directories
 .gradle/
 build/
 app/build/
+**/build/
 
 # IDE & Android Studio
 .idea/
 *.iml
 .navigation/
 captures/
+.externalNativeBuild/
+.cxx/
 
-# Local configuration
+# Local configuration & environment
 local.properties
+.tmp*
 
 # Log files & Heap dumps
 *.log
@@ -19,9 +29,10 @@ local.properties
 # OS & Temp files
 .DS_Store
 Thumbs.db
+*~
+*.swp
+*.bak
 
-# Keystores & Package outputs
+# Keystores & Credentials
 *.jks
 *.keystore
-*.apk
-*.aab

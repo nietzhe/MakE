@@ -1,4 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pesanan Dapur</string>
+
+    <!-- Navigation / chrome -->
+    <string name="nav_kasir">Kasir</string>
+    <string name="nav_dapur">Dapur</string>
+    <string name="nav_produksi">Produksi</string>
+    <string name="nav_bar_description">Navigasi utama</string>
+    <string name="nav_selected">Dipilih</string>
+    <string name="nav_not_selected">Tidak dipilih</string>
+    <string name="share_pdf">Bagikan PDF</string>
+    <string name="settings">Pengaturan</string>
+
+    <!-- Hero -->
+    <string name="greeting_morning">Selamat pagi, Mak!</string>
+    <string name="greeting_noon">Selamat siang, Mak!</string>
+    <string name="greeting_afternoon">Selamat sore, Mak!</string>
+    <string name="greeting_night">Selamat malam, Mak!</string>
+    <string name="hero_dapur_label">AYO MASAK UNTUK</string>
+    <string name="hero_active_orders">%1$d pesanan aktif</string>
+
+
+    <!-- Date chips -->
+    <string name="chip_pick_date">Pilih tanggal</string>
+    <string name="chip_today">Hari ini</string>
+    <string name="chip_tomorrow">Besok</string>
+
+    <!-- Dapur -->
+    <string name="section_active">Aktif (%1$d)</string>
+    <string name="section_ready">Siap diantar (%1$d)</string>
+    <string name="section_ready_expanded">Terbuka</string>
+    <string name="section_ready_collapsed">Tertutup</string>
+    <string name="section_active_empty">Semua pesanan sudah selesai dimasak</string>
+    <string name="order_item_count">%1$d item</string>
+    <string name="order_ready_subline">Siap dikemas/diantar</string>
+    <string name="order_expanded">Terbuka</string>
+    <string name="order_collapsed">Tertutup</string>
+    <string name="order_state_ready">Siap diantar</string>
+    <string name="order_expand_label">Tampilkan item pesanan</string>
+    <string name="order_collapse_label">Sembunyikan item pesanan</string>
+    <string name="order_long_click_label">Tampilkan aksi pesanan</string>
+    <string name="order_more_actions">Aksi pesanan %1$s</string>
+    <string name="order_status_active">Belum selesai dimasak</string>
+    <string name="order_status_done">Selesai</string>
+    <string name="order_flag_done">Selesai!</string>
+    <string name="dapur_empty_title">Belum ada pesanan</string>
+    <string name="dapur_empty_subtitle">untuk tanggal ini</string>
+
+    <!-- Order actions -->
+    <string name="action_delete">Hapus</string>
+    <string name="action_edit">Ubah</string>
+    <string name="action_done">Selesai</string>
+    <string name="action_reopen">Buka lagi</string>
+    <string name="action_cancel_small">Batal</string>
+    <string name="action_close_menu">Tutup menu aksi</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_delete_message">Hapus pesanan %1$s? Semua item di dalamnya ikut terhapus.</string>
+    <string name="dialog_delete_cancel">Batal</string>
+    <string name="dialog_delete_confirm">Hapus</string>
+    <string name="dialog_done_message">Pesanan %1$s sudah selesai dimasak dan siap dikemas/diantar?</string>
+    <string name="dialog_done_cancel">Belum</string>
+    <string name="dialog_done_confirm">Ya, selesai</string>
+    <string name="dialog_reopen_message">Buka lagi pesanan %1$s? Pesanan kembali ke daftar aktif dan ikut dihitung lagi di Produksi.</string>
+    <string name="dialog_reopen_cancel">Batal</string>
+    <string name="dialog_reopen_confirm">Ya, buka lagi</string>
+    <string name="dialog_replace_form_message">Pesanan di Kasir yang belum disimpan akan diganti. Lanjut mengubah pesanan %1$s?</string>
+    <string name="dialog_replace_form_cancel">Batal</string>
+    <string name="dialog_replace_form_confirm">Ya, lanjut</string>
+    <string name="snackbar_order_deleted">Pesanan dihapus</string>
+    <string name="snackbar_undo">URUNGKAN</string>
+
+    <!-- Kasir edit mode -->
+    <string name="edit_banner">Mengubah pesanan %1$s</string>
+    <string name="edit_banner_cancel">Batal</string>
+    <string name="edit_save_changes">Simpan perubahan</string>
+    <string name="toast_order_saved">Pesanan untuk \"%1$s\" berhasil disimpan!</string>
+    <string name="toast_order_updated">Pesanan %1$s berhasil diperbarui</string>
+    <string name="toast_order_not_editable">Pesanan ini sudah selesai atau dihapus, jadi tidak bisa diubah</string>
+
+    <!-- Produksi -->
+    <string name="produksi_title">Sisa yang perlu dimasak</string>
+    <string name="produksi_summary">%1$d menu · %2$d porsi</string>
+    <string name="produksi_done_line">Sudah selesai dimasak: %1$d porsi</string>
+    <string name="produksi_empty">Belum ada yang perlu dimasak</string>
+    <string name="produksi_row_description">%1$s, %2$d porsi</string>
+
+    <!-- PDF -->
+    <string name="pdf_chooser_title">Bagikan PDF</string>
+    <string name="pdf_orders_title">Daftar Pesanan per Pelanggan</string>
+    <string name="pdf_orders_subject">Daftar Pesanan MAKKAE - %1$s (%2$s)</string>
+    <string name="pdf_production_subject">Sisa Produksi MAKKAE - %1$s (%2$s)</string>
+    <string name="pdf_delivery_date">Tanggal Pengiriman: %1$s</string>
+    <string name="pdf_printed">Dicetak: %1$s</string>
+    <string name="pdf_section_active">PESANAN AKTIF (%1$d)</string>
+    <string name="pdf_section_ready">SIAP DIANTAR (%1$d)</string>
+    <string name="pdf_no_orders">Tidak ada pesanan</string>
+    <string name="pdf_item_line">  • %1$s  × %2$d</string>
+    <string name="pdf_note_line">      Catatan: %1$s</string>
+    <string name="pdf_portions">%1$d porsi</string>
+    <string name="pdf_production_total">TOTAL SISA: %1$d MENU · %2$d PORSI</string>
 </resources>

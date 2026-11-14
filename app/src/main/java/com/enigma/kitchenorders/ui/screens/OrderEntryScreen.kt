@@ -2,6 +2,7 @@ package com.enigma.kitchenorders.ui.screens
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,12 +16,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.enigma.kitchenorders.R
 import com.enigma.kitchenorders.data.local.entity.MenuEntity
 import com.enigma.kitchenorders.data.local.entity.OrderItemEntity
 import com.enigma.kitchenorders.ui.components.FloatingTotalBar
@@ -39,12 +44,15 @@ fun OrderEntryScreen(
     cart: List<OrderItemEntity>,
     customerName: String,
     deliveryDate: Long,
+    editingName: String?,
+    bottomInset: Dp,
     onCustomerNameChange: (String) -> Unit,
     onDeliveryDateChange: (Long) -> Unit,
     onAddItem: (MenuEntity, Int, String?) -> Unit,
     onRemoveItem: (Int) -> Unit,
     onSubmitOrder: () -> Unit,
-    onNavigateBack: () -> Unit
+    onCancelEdit: () -> Unit,
+    onBlockSwipeChange: (Boolean) -> Unit
 ) {
     val context = LocalContext.current
     val dateFormat = remember { SimpleDateFormat("EEE, dd MMM", Locale("id", "ID")) }
@@ -55,50 +63,75 @@ fun OrderEntryScreen(
     var itemQuantity by remember { mutableStateOf("1") }
     var itemNotes by remember { mutableStateOf("") }
     var menuDropdownExpanded by remember { mutableStateOf(false) }
+    var nameFieldFocused by remember { mutableStateOf(false) }
+
+    LaunchedEffect(nameFieldFocused, showAddItemDialog) {
+        onBlockSwipeChange(nameFieldFocused || showAddItemDialog)
+    }
+    DisposableEffect(Unit) {
+        onDispose { onBlockSwipeChange(false) }
+    }
 
     val totalPrice = cart.sumOf { it.priceSnapshot * it.quantity }
     val totalPriceFormatted = currencyFormat.format(totalPrice)
+    val listBottomPadding = bottomInset + 76.dp + 24.dp
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Catat Pesanan",
-                        fontFamily = FrauncesFontFamily,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 20.sp
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, "Kembali", tint = Color.White)
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Sambal,
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
-                )
-            )
-        },
-        containerColor = Tepung,
-        bottomBar = {
-            FloatingTotalBar(
-                totalPriceFormatted = totalPriceFormatted,
-                onSaveOrder = onSubmitOrder,
-                enabled = customerName.isNotBlank() && cart.isNotEmpty()
-            )
-        }
-    ) { paddingValues ->
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Tepung)
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .padding(horizontal = 20.dp),
-            contentPadding = PaddingValues(top = 16.dp, bottom = 120.dp),
+            contentPadding = PaddingValues(top = 16.dp, bottom = listBottomPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            if (editingName != null) {
+                item(key = "edit_banner") {
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        color = KunyitPale
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 16.dp, end = 4.dp)
+                                .heightIn(min = 56.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = null,
+                                tint = Kopi,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = stringResource(R.string.edit_banner, editingName),
+                                modifier = Modifier.weight(1f),
+                                fontFamily = PlusJakartaSansFontFamily,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp,
+                                color = Kopi
+                            )
+                            TextButton(
+                                onClick = onCancelEdit,
+                                modifier = Modifier.heightIn(min = 48.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.edit_banner_cancel),
+                                    fontFamily = PlusJakartaSansFontFamily,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Sambal
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
             // "pesanan baru" -- main card
             item {
                 Card(
@@ -211,13 +244,17 @@ fun OrderEntryScreen(
                                         placeholder = { Text("Nama Pelanggan") },
                                         singleLine = true,
                                         colors = OutlinedTextFieldDefaults.colors(
+                                            focusedTextColor = Kopi,
+                                            unfocusedTextColor = Kopi,
                                             focusedBorderColor = Sambal,
                                             unfocusedBorderColor = Color.Transparent
                                         ),
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .onFocusChanged { nameFieldFocused = it.isFocused }
                                     )
                                     Text(
-                                        text = "Pelanggan langganan",
+                                        text = "", // desc, so leave it blank
                                         fontFamily = PlusJakartaSansFontFamily,
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 11.sp,
@@ -334,6 +371,20 @@ fun OrderEntryScreen(
                 }
             }
         }
+
+        FloatingTotalBar(
+            totalPriceFormatted = totalPriceFormatted,
+            onSaveOrder = onSubmitOrder,
+            enabled = customerName.isNotBlank() && cart.isNotEmpty(),
+            buttonText = if (editingName != null) {
+                stringResource(R.string.edit_save_changes)
+            } else {
+                "Simpan pesanan"
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = bottomInset)
+        )
     }
 
     if (showAddItemDialog) {

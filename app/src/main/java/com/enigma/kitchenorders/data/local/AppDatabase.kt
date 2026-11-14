@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [MenuEntity::class, OrderEntity::class, OrderItemEntity::class],
-    version = 1,
-    exportSchema = false
+    version = 2,
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun menuDao(): MenuDao
@@ -34,6 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "kitchen_orders.db"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .addCallback(DatabaseCallback())
                     .build()
                 INSTANCE = instance

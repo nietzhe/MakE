@@ -19,7 +19,7 @@ class KitchenViewModelFactory(
         }
         if (modelClass.isAssignableFrom(KitchenViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return KitchenViewModel(repository) as T
+            return KitchenViewModel(repository, preferencesManager) as T
         }
         if (modelClass.isAssignableFrom(SettingsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

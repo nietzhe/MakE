@@ -129,6 +129,8 @@ fun SettingsScreen(
                         }
                     },
                     colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Kopi,
+                        unfocusedTextColor = Kopi,
                         focusedBorderColor = Sambal,
                         unfocusedBorderColor = Line
                     ),
